@@ -54,7 +54,8 @@ const server = http.createServer(async (req, res) => {
 		return;
 	}
 	else {
-		res.statusCode(404);
+		res.statusCode = 404;
+		res.end('Not Found!');
 	}
 });
 

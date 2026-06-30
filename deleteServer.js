@@ -39,20 +39,23 @@ const server = http.createServer(async (req, res) => {
     res.setHeader("Content-type", "application/json");
 
     if (method === "DELETE" && pathname.startsWith('/users/')) { // send the user to be deleted with an ID in the path
-        const userIDToUpdate = +pathname.split("/")[2];
+        const userIDToDelete = +pathname.split("/")[2];
         
         // delete a particular user with a userID
-        const userToUpdateIndex = users.findIndex((ele) => ele.id === +userIDToUpdate);
-        if (userToUpdateIndex === -1) {
+        const userToDeleteIndex = users.findIndex((ele) => ele.id === +userIDToDelete);
+        
+        if (userToDeleteIndex === -1) {
             res.statusCode = 404;
             res.end(JSON.stringify({ message: "User does not exists" }));
             return;
         }
-        users = users?.filter((ele) => ele?.id !== +userIDToUpdate);
+
+        // delete that user by filtering out their ID
+        users = users?.filter((ele) => ele?.id !== +userIDToDelete);
 		res.statusCode = 200;
 		res.end(JSON.stringify({
 				users,
-				message: `User with id as ${userIDToUpdate} deleted successfully`,
+				message: `User with id as ${userIDToDelete} deleted successfully`,
 			})
 		);
 		return;
